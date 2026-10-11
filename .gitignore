@@ -1,0 +1,31 @@
+# Maven / Java
+**/target/
+*.class
+*.log
+
+# IntelliJ
+.idea/
+**/.idea/
+*.iml
+
+# VS Code
+.vscode/
+**/.vscode/
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+**/application-local.yml
+**/application-local.yaml
+**/application-local.properties
+**/application-secrets.yml
+**/application-secrets.yaml
+
+# Temporary files
+*.tmp
+*.swp
