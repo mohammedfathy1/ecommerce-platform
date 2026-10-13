@@ -1,29 +1,9 @@
-
-server:
-  port: 8080
-
 spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
   application:
     name: api-gateway
 
-  cloud:
-    gateway:
-      server:
-        webflux:
-          routes:
-            - id: user-service-route
-              uri: http://localhost:8081
-              predicates:
-                - Path=/api/users/**
-              filters:
-                - AddRequestHeader= x-gateway-source , api-gateway
+server:
+  port: ${SERVER_PORT:8080}
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,gateway
-
-  endpoint:
-    gateway:
-      access: read-only

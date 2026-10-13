@@ -20,9 +20,7 @@ Thumbs.db
 .env
 .env.*
 !.env.example
-**/application-local.yml
-**/application-local.yaml
-**/application-local.properties
+
 **/application-secrets.yml
 **/application-secrets.yaml
 
