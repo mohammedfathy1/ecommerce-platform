@@ -9,39 +9,34 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import static reactor.netty.http.HttpConnectionLiveness.log;
-
 @Component
-
 public class RequestLoggingFilter implements GlobalFilter, Ordered {
-        private static final Logger logger = LoggerFactory.getLogger(RequestLoggingFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestLoggingFilter.class);
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
         long startTime = System.currentTimeMillis();
 
         String path = exchange.getRequest()
-                .getURI().getPath();
+               .getURI()
+               .getPath();
 
         String method = exchange.getRequest()
-                .getMethod().name();
+               .getMethod()
+               .name();
 
-        log.info("Incoming Request: {} {}", method, path);
+        logger.info("Incoming Request: {} {}", method, path);
 
         return chain.filter(exchange)
-                .doFinally(signal -> {
+               .doFinally(signal -> {
+                   long duration = System.currentTimeMillis() - startTime;
+                   var status = exchange.getResponse().getStatusCode();
 
-                    long duration =
-                            System.currentTimeMillis() - startTime;
-
-                    var status = exchange.getResponse()
-                            .getStatusCode();
-
-                    log.info(
-                            "Request Completed: {} {} | Status: {} | Time: {} ms",
-                            method, path, status, duration
-                    );
-                });
+                   logger.info(
+                           "Request Completed: {} {} | Status: {} | Time: {} ms",
+                           method, path, status, duration
+                   );
+               });
     }
 
     @Override
